@@ -50,7 +50,7 @@ $data = $callback->sendRegCallback($channel, $regTime, $regIp);
 	
 # 签名方法
     将如下参数组成一个数组或者map
-```
+```php
 $data = [
     "channel" => $channel,
     "regTime" => $regTime,
@@ -63,15 +63,15 @@ $data = [
 ```
 
     按照key进行排序
-```
-    ksort($array);
+```php
+    ksort($data);
 ```
 
 
     将排好序的数组或者map拼成一个字符串，最后进行md5加密，最终得到sign
-```
+```php
     $string = "";
-    foreach ($array as $key => $val) {
+    foreach ($data as $key => $val) {
         $string .= $val;
     }
     $sign = md5($string);
