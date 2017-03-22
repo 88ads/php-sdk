@@ -8,11 +8,6 @@
 # 第二步：设置渠道ID
 	广告主后台->计划管理->任意选中一个广告->编辑
 	
-# 第三步：反馈注册数据
-	当用户注册后，广告主需要向88ads移动广告联盟发送以下数据：
-	*$channel 用户注册的渠道ID
-	*$regTime 用户注册时间(10位UNIX时间戳)
-	*$regIp 用户IP地址
 
 # PHP SDK使用DEMO：
 ```php
@@ -20,7 +15,7 @@ require 'AdsCallback.php';
 
 $appKey = '你的appKey';
 $appSecret = '你的appSecret';
-$channel = '渠道ID';
+$channel = '注册渠道ID';
 $regTime = '注册时间';
 $regIp = '注册IP';
 
@@ -34,7 +29,52 @@ $data = $callback->sendRegCallback($channel, $regTime, $regIp);
 ```
 
 	失败返回的数据格式如下：
-···json
+```json
 {"code":403,"msg":"signVerify failed","data":[]}
-···
+```
+
+# 其他平台：
+	Android、IOS和其他平台请自行构造请求向我们的接口发送数据。格式如下：
+	http://www.88ads.com/callback/reg?channel=qx8888&regTime=1490165651&regIp=192.168.1.111&appKey=d110210320e7bbdcf63ac0e6f7f26d53&timestamp=1490165651&nonce=WGxPhzTE&sign=52b20e1775ea7b4a46af8e514067d8b2
 	
+# 参数说明
+```
+    * channel 渠道ID
+    * regTime 注册时间
+    * regIp 注册IP
+    * appKey 你的APPKEY
+    * timestamp 当前时UNIX间戳 10位
+    * nonce 随机字符串
+    * sign 签名
+```
+	
+# 签名方法
+    将如下参数组成一个数组或者map
+```
+$data = [
+    "channel" => $channel,
+    "regTime" => $regTime,
+    "regIp" => $regIp,
+    "appSecret" => $appSecret,
+    "appKey" => $appKey,
+    "timestamp" => $timestamp,
+    'nonce' => $nonce
+];
+```
+
+    按照key进行排序
+```
+    ksort($array);
+```
+
+
+    将排好序的数组或者map拼成一个字符串，最后进行md5加密，最终得到sign
+```
+    $string = "";
+    foreach ($array as $key => $val) {
+        $string .= $val;
+    }
+    $sign = md5($string);
+```
+
+    
