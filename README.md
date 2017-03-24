@@ -8,7 +8,7 @@
 # 第二步：设置渠道ID
     每个广告需要设置一个渠道ID，不可重复
 	广告主后台->计划管理->添加/编辑广告
-	![image](https://github.com/88ads/php-sdk/blob/master/img/qd.png)
+![image](https://github.com/88ads/php-sdk/blob/master/img/qd.png)
 
 # PHP SDK使用DEMO：
 ```php
